@@ -1,1 +1,1 @@
-Mini project using MLP regressor to forecast Brent crude oil price
+Mini projects for finance. Each project had a personal README that explains the projects.
