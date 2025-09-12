@@ -4,7 +4,7 @@ import pandas as pd
 import random
 from typing import Iterable, List, Union
 
-#
+# Compute and show the results
 def simulation(annees: Iterable[Union[int, str]],lookback_years,rebalance_days,money) :
 
     years=[]
@@ -161,5 +161,5 @@ def simulation(annees: Iterable[Union[int, str]],lookback_years,rebalance_days,m
 
 # Example
 liste_annee = list(range(2005, 2026))   # 1995 to 2025 include
-print(liste_annee)
+#print(liste_annee)
 resultats = simulation(liste_annee, 15, 100, 100000)

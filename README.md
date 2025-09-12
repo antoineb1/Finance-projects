@@ -1,1 +1,1 @@
-Mini projects for finance. Each project had a personal README that explains the projects.
+Projects for finance. Each project had a personal README that explains the projects.

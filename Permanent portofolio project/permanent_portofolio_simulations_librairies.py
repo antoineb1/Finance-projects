@@ -1,7 +1,6 @@
 import yfinance as yf
 import pandas as pd
 import numpy as np
-import requests
 import data_modifications_librairies as data_modif
 
 # Determining inflation and growth ratios

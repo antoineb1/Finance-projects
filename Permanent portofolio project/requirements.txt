@@ -1,4 +1,7 @@
 yfinance
 pandas
 numpy
-requests
+pickle
+typing
+random
+matplotlib.pyplot
