@@ -36,6 +36,10 @@ def simulation(annees: Iterable[Union[int, str]],lookback_years,rebalance_days,m
         gold_bonds_ratio, gold_equity_ratio = lib.get_market_ratios(ratio_start, ratio_end)
         #0gold_bonds_ratio, gold_equity_ratio = 10 *, 10 # Pour eviter les pourcentage
         quadrant = lib.determine_quadrant(gold_bonds_ratio, gold_equity_ratio)
+        # Test on laisse que sur le cadrant 2
+        quadrant = "Quadrant 2: Inflationary Boom"
+        # DCA
+        #final_money = final_money + 2*20_000
 
         # Use the last year quadrant for this case but can change with the strategy
         if quadrant == "Quadrant 5: Transition Quadrant":
@@ -93,7 +97,7 @@ def simulation(annees: Iterable[Union[int, str]],lookback_years,rebalance_days,m
 
     # Show the list performance and money
     for i in range(len(years)):
-        print(f"Année {years[i]} : performance :{perfs[i]} money : {money_finals[i]}")
+        print(f"Année {years[i]} : performance (%) :{perfs[i]} money : {money_finals[i]}")
 
     # plot ratios Gold/(Bonds or cash)
     plt.figure(figsize=(10, 4))
@@ -160,6 +164,8 @@ def simulation(annees: Iterable[Union[int, str]],lookback_years,rebalance_days,m
     return years, gb_ratios, ge_ratios, quadrants, money_finals, perfs
 
 # Example
-liste_annee = list(range(2005, 2026))   # 1995 to 2025 include
+liste_annee = list(range(2021, 2026))   # 1995 to 2025 include
 #print(liste_annee)
-resultats = simulation(liste_annee, 15, 100, 100000)
+money = 15*2*700
+resultats = simulation(liste_annee, 7, 30, money)
+print(money)

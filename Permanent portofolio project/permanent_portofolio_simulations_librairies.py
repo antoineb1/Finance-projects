@@ -148,20 +148,20 @@ def get_return_of_investments(money,rebalance_days,economic_quadrant,start_date,
 
     for i in range(len(rebal_dates) - 1):
 
-        date_start = rebal_dates[i]
-        date_end   = rebal_dates[i + 1]
+        date_start_rebal = rebal_dates[i]
+        date_end_rebal   = rebal_dates[i + 1]
 
         # Calculation range periods
-        num_days = (pd.to_datetime(date_end) - pd.to_datetime(date_start)).days
+        num_days = (pd.to_datetime(date_end_rebal) - pd.to_datetime(date_start_rebal)).days
         data_size = max(num_days, 1)  # avoid zero-length windows
 
         if economic_quadrant == "Quadrant 3: Deflationary Bust" or economic_quadrant == "Quadrant 4: Deflationary Boom":
 
              # Compute the average bond yield over the period (simple average of FVX and TYX, in decimal form)
-            bond_avg = ((data['^FVX'].loc[date_start:date_end].astype(float).squeeze() + data['^TYX'].loc[date_start:date_end].astype(float).squeeze()) / 2) / 100
+            bond_avg = ((data['^FVX'].loc[date_start_rebal:date_end_rebal].astype(float).squeeze() + data['^TYX'].loc[date_start_rebal:date_end_rebal].astype(float).squeeze()) / 2) / 100
 
             # Smooth bond yield with a rolling average
-            bond_avg_period = (bond_avg.loc[date_start:date_end].rolling(window=data_size, min_periods=1).mean())
+            bond_avg_period = (bond_avg.loc[date_start_rebal:date_end_rebal].rolling(window=data_size, min_periods=1).mean())
             last_bonds_mean = bond_avg_period.iloc[-1] if hasattr(bond_avg_period, 'iloc') and len(bond_avg_period) else 0.0
 
             # Compute daily compounded interest rate (in decimal form)
@@ -172,14 +172,14 @@ def get_return_of_investments(money,rebalance_days,economic_quadrant,start_date,
         if economic_quadrant == "Quadrant 1: Inflationary Bust" or economic_quadrant == "Quadrant 2: Inflationary Boom":
 
             # Compute gold growth over the period (in decimal form)
-            gold_data = data['GC=F'].loc[start_date:end_date].dropna()
+            gold_data = data['GC=F'].loc[date_start_rebal:date_end_rebal].dropna()
             last_gold_growth = (gold_data.iloc[-1] - gold_data.iloc[0]) / gold_data.iloc[0]
 
 
         if economic_quadrant == "Quadrant 2: Inflationary Boom" or economic_quadrant == "Quadrant 4: Deflationary Boom":
 
             # Compute equity growth (S&P 500) over the period (in decimal form)
-            equity_data = data['^GSPC'].loc[start_date:end_date].dropna()
+            equity_data = data['^GSPC'].loc[date_start_rebal:date_end_rebal].dropna()
             last_equity_growth = ((equity_data.iloc[-1] - equity_data.iloc[0]) / equity_data.iloc[0])
 
         # Apply performance rules depending on the economic quadrant
@@ -187,6 +187,8 @@ def get_return_of_investments(money,rebalance_days,economic_quadrant,start_date,
             performance_factor = performance_factor * (1 + last_gold_growth)
         if economic_quadrant == "Quadrant 2: Inflationary Boom" :
             performance_factor = performance_factor * (1 + (0.5 * last_gold_growth + 0.5 * last_equity_growth))
+            if last_equity_growth < -0.16666 or last_gold_growth < -0.16666:
+                print('appel_de_marge_6')
         if economic_quadrant == "Quadrant 3: Deflationary Bust":
             performance_factor = performance_factor * (1 + last_bonds_growth)
         if economic_quadrant == "Quadrant 4: Deflationary Boom":
