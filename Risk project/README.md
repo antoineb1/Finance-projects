@@ -1,0 +1,3 @@
+Project to understand and implement risk metrics on commodity underlyings, with a focus on natural gas and gold. The objective is to model vanilla European options using the Black-76 framework, simulate market option prices, retrieve implied volatility, and compute the main Greeks such as Delta, Gamma, Vega, Theta and Rho.
+
+The project also includes the calculation and analysis of historical drawdowns on a proxy for spot gold, in order to assess downside risk and understand the magnitude and duration of past stress periods.
