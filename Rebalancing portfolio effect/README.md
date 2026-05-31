@@ -1,0 +1,1 @@
+Monte Carlo simulation of the rebalancing effect on returns and return dispersion in a two-asset portfolio with negative correlation.
